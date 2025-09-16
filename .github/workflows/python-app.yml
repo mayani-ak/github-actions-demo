@@ -38,11 +38,11 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pytest -m pytest --verbose --junit-xml=junitreport.xml
+        pytest -m pytest --verbose --junit-xml=junit.xml
     - name: Publish Test Report using Junit
       uses: mikepenz/action-junit-report@v5.6.2
       if: success() || failure()
       with:
-        report_paths: '**/junitreport.xml'
+        report_paths: '**/junit.xml'
         include_passed: true
         detailed_summary: true
