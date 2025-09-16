@@ -16,6 +16,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
 
     steps:
     - uses: actions/checkout@v4
@@ -36,4 +38,11 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pytest
+        pytest -m pytest --verbose --junit-xml=junitreport.xml
+    - name: Publish Test Report using Junit
+      uses: mikepenz/action-junit-report@v5.6.2
+      if: success() || failure()
+      with:
+        report_paths: '**/junitreport.xml'
+        include_passed: true
+        detailed_summary: true
